@@ -1,0 +1,15 @@
+name : Daniel Bittman
+brand : dBittman
+title : Systems Programming, and Other Stuff
+description : My Site
+keyword: 
+url : http://dbittman.github.io
+imageurl: http://www.daigo.org/wordpress/wp-content/themes/daigo_org-theme-2013/img/glasses.png
+email : danielbittman1@gmail.com
+github : dbittman
+author: Daniel Bittman
+analytics: UA-57856555-1
+year: 2014
+markdown: kramdown
+excerpt_separator: <!--more-->
+

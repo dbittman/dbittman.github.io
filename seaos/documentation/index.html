@@ -1,0 +1,47 @@
+---
+layout: default
+title: Documentation - SeaOS
+---
+
+<div class="row">
+	<div class="large-3 columns panel">
+		<div class="row text-center">
+			<a href="http://github.com/dbittman/seakernel" target="_blank" class="button"><img src="icons/github.png">Source Code</a>
+		</div>
+		<hr>
+		<ul>
+			<li><a href="seaos/index.html">SeaOS</a></li>
+			<li><a href="seaos/releases.html">Download</a></li>
+			<li><a href="seaos/documentation/index.html">Documentation</a></li>
+		</ul>
+	</div>
+
+	<div class="large-9 columns">
+		<h2>SeaOS - Documentation</h2>
+		<hr>
+		<p>See <a href="seaos/documentation/building.html">Building</a> for build instructions.</p>
+
+		<h4>Networking</h4>
+		<p>Networking is an ongoing project, but current implemented is a socket layer, an interface layer, and some protocols. Configuring
+		interfaces is done with the <code>ifc</code> command. It has fairly simple syntax:
+		<blockquote><code>
+				ifc -i nd1 -s up -n 10.0.0.1/8<br>
+				ifc -i nd2 -s down
+		</code></blockquote>
+		any of the options provided are optional, save for the <code>-i interface-name</code> part. Running <code>ifc</code> without arguments
+		will print out status information of the interfaces on the system.</p>
+
+		<p>Additionally, the routing table can be modified by using the <code>route</code>. Running <code>route</code> without arguments will
+		print out the routing table. Routes can be modified like:
+		<blockquote>
+			<code>route -a -i nd1 -n 10.0.0.0/8</code> Adds a route to 10.0.0.0/8 via interface nd1.<br>
+			<code>route -a -i nd1 -n 0.0.0.0 -g 10.0.0.1 -d</code> Adds a default route through 10.0.0.1.<br>
+			<code>route -r -i nd1 -n 10.0.0.0</code> Deletes route 10.0.0.0 via nd1.<br>
+		</blockquote>
+		</p>
+		
+	</div>
+
+
+</div>
+

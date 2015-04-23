@@ -1,0 +1,57 @@
+---
+layout: default
+title: BASIL - dbittman
+---
+
+<div class="row">
+	<div class="large-3 columns panel">
+		<div class="row text-center">
+			<a href="http://github.com/dbittman/basil" target="_blank" class="button"><img src="icons/github.png">Source Code</a>
+		</div>
+		<hr>
+		<div class="row">
+			<ul>
+				<li><a href="basil/basil-specification-2.0.0.pdf">BASIL core specification v2.0.0</a></li>
+				<li><a href="basil/basil-specification-1.0.0.pdf">BASIL core specification v1.0.0</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="large-9 columns">
+		<h2>BASIL</h2>
+		<h3>Bass-Ackwards Stack ISA Language</h3>
+		<hr>
+		<p>BASIL is a stack based assembly language with a fixed-length instruction size and no registers. It supports
+		basic byte based input and output, basic arithmetic and logical instructions, branching, and a <code>swap</code> instruction.
+		The current version is <code>2.0.0</code>, and the full specification can be downloaded <a href="basil/basil-specification-2.0.0.pdf">here [PDF]</a>.</p>
+
+		<p>BASIL is designed in collaboration with <a href="http://justinlardinois.com" target="_blank">Justin Lardinois</a>.</p>
+
+		<h4>Instructions</h4>
+		<p>Most instructions take no operands in the program code, but instead get them from the stack. For example, an <code>add</code> instruction pops two
+		values off of the stack, adds them together, and pushes the result. Some other instructions take only one argument, for example <code>not</code>. It pops
+		one value from the stack, does a bitwise not, and pushes the result.</p>
+
+		<p>One instruction takes an argument: <code>push</code>. When the CPU encounters a <code>push</code> instruction, it interprets the next 4-bit instruction as
+		a value to push onto the stack. Because it is only 4 bits, creating larger number requires clever use of multiple push instructions and arithmetic. This
+		assembler extends the basic BASIL language by implementing automatic-value-generation. That is, it inserts instructions to generate large values in the place
+		of instructions of the form <code>push n</code> where <code>n &gt; 15</code>. Note: using this feature will NOT generate portable code, since it is not in
+		the core BASIL specification!</p>
+
+		<p>One instruction of note is <code>swap</code>. It breaks the stack model by allowing elements to swap locations. It pops the top element, and uses it as
+		an argument, n. If n is non-zero, it swaps the new top element of the stack with the nth element down. If n is zero, it pops the new top element from the stack
+		and executes it. This non only allows self-modifying code, but also allows random access memory.<p>
+
+		<h4>Implementation</h4>
+		<p>This project contains an assembler and a BASIL machine simulator. The machine is a 32-bit word extension of the core BASIL specification to allow
+		more advanced input and output, and more interesting CPU management.</p>
+
+		<h4>Self-Hosting Virtual Machine</h4>
+		<p>A secondary project that I am working on is a BASIL simulator that runs on the BASIL CPU. It reads in program code with get, and executes instructions. It
+		uses swap0 to execute instructions, and also does specific processing of instructions that need more work (such as branching, swapping, etc).
+		This is not complete.</p>
+	</div>
+
+
+</div>
+
