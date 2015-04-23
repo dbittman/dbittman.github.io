@@ -124,16 +124,23 @@ $font-family-monospace: Consolas, "Liberation Mono", Courier, monospace;
 // $success-color: #43AC6A;
 // $warning-color: #f08a24;
 // $info-color: #a0d3e8;
+$primary-color: #2c3e50;
+$secondary-color: #e7e7e7;
+$alert-color: #f04124;
+$link-color: #3A539B;
 
+$success-color: #43AC6A;
+$warning-color: #f08a24;
+$info-color: #a0d3e8;
 // We use these to control various global styles
-// $body-bg: $white;
-// $body-font-color: $jet;
+$body-bg: #fff;
+$body-font-color: #222;
 $body-font-family: $font-family-sans-serif;
-// $body-font-weight: $font-weight-normal;
-// $body-font-style: normal;
+$body-font-weight: normal;
+$body-font-style: normal;
 
 // We use this to control font-smoothing
-// $font-smoothing: antialiased;
+$font-smoothing: antialiased;
 
 // We use these to control text direction settings
 // $text-direction: ltr;
@@ -202,9 +209,9 @@ $header-font-family: Raleway $body-font-family;
 // $header-font-weight: $font-weight-normal;
 // $header-font-style: normal;
 // $header-font-color: $jet;
-// $header-line-height: 1.4;
+$header-line-height: 1.4;
 // $header-top-margin: .2rem;
-// $header-bottom-margin: .5rem;
+$header-bottom-margin: .6rem;
 $header-text-rendering: auto;
 
 // We use these to control header font sizes
@@ -238,7 +245,7 @@ $header-text-rendering: auto;
 // $paragraph-font-family: inherit;
 // $paragraph-font-weight: $font-weight-normal;
 // $paragraph-font-size: 1rem;
-// $paragraph-line-height: 1.6;
+$paragraph-line-height: 1.6;
 // $paragraph-margin-bottom: rem-calc(20);
 // $paragraph-aside-font-size: rem-calc(14);
 // $paragraph-aside-line-height: 1.35;
@@ -258,12 +265,13 @@ $header-text-rendering: auto;
 // We use these to style anchors
 // $anchor-text-decoration: none;
 // $anchor-text-decoration-hover: none;
-// $anchor-font-color: $primary-color;
-// $anchor-font-color-hover: scale-color($anchor-font-color, $lightness: -14%);
+$anchor-font-color: $link-color;
+$anchor-font-color-hover: scale-color($anchor-font-color, $lightness: -34%);
 
 // We use these to style the <hr> element
-// $hr-border-width: 1px;
+$hr-border-width: 1px;
 // $hr-border-style: solid;
+$hr-border-color: #bdc3c7;
 // $hr-border-color: $gainsboro;
 // $hr-margin: rem-calc(20);
 
@@ -452,7 +460,7 @@ $header-text-rendering: auto;
 // We use these to control button border styles.
 // $button-border-width: 0;
 // $button-border-style: solid;
-// $button-bg-color: $primary-color;
+$button-bg-color: $link-color;
 // $button-bg-hover: scale-color($button-bg-color, $lightness: $button-function-factor);
 // $button-border-color: $button-bg-hover;
 // $secondary-button-bg-hover: scale-color($secondary-color, $lightness: $button-function-factor);
