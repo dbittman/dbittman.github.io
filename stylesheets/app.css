@@ -1,28 +1,3 @@
-/* line 1477, ../scss/_settings.scss */
-#header {
-  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../../images/footerbg1.jpg);
-  background-size: cover;
-  position: relative;
-  display: table;
-  width: 100%;
-  height: 70px;
-}
-
-/* line 1486, ../scss/_settings.scss */
-#header .row,
-#header .columns {
-  display: table;
-  width: 100%;
-  height: 100%;
-}
-
-/* line 1492, ../scss/_settings.scss */
-#header .spanMiddle {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle;
-}
-
 /* line 348, ../bower_components/foundation/scss/foundation/components/_global.scss */
 meta.foundation-version {
   font-family: "/5.5.1/";
