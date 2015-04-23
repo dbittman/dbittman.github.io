@@ -24,7 +24,6 @@ keywords: github pages, Jekyll, foundation 5
 			<a href="https://www.linkedin.com/in/danielbittman" target="_blank"> <img src="icons/linkedin.png"   style="background-color:#007FB1;"></a>
 			<a href="mailto:danielbittman1@gmail.com" target="_blank">           <img src="icons/gmail.png"      style="background-color:#DD4B39;"></a>
 			<a href="http://google.com/+DanielBittman" target="_blank">          <img src="icons/googleplus.png" style="background-color:#D14836;"></a>
-			<a href="http://www.youtube.com/user/danielbittman1" target="_blank"><img src="icons/youtube.png"    style="background-color:#CD332D;"></a>
 			</div>
 		</div>
 		<hr>
