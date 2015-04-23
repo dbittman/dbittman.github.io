@@ -1,8 +1,14 @@
 /* line 1477, ../scss/_settings.scss */
-#headerl {
+#header {
   background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../../images/footerbg1.jpg);
   background-size: cover;
   position: relative;
+  display: table;
+  width: 100%;
+}
+
+/* line 1486, ../scss/_settings.scss */
+#header .div {
   display: table-cell;
   width: 100%;
   vertical-align: middle;
