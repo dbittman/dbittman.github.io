@@ -20,7 +20,7 @@ keywords: github pages, Jekyll, foundation 5
 			<div class="row text-center">
 			<a href="http://facebook.com/daniel.a.bittman" target="_blank">      <img src="icons/facebook.png"   style="background-color:#3B5998;"></a>
 			<a href="http://github.com/dbittman" target="_blank">                <img src="icons/github.png"     style="background-color:#4183C4;"></a>
-			<a href="http://twitter.com/danielbittman" target="_blank">          <img src="icons/twitter.png"     style="background-color:#FFFFFF;"></a>
+			<a href="http://twitter.com/danielbittman" target="_blank">          <img src="icons/twitter.png"     style="background-color:#FFFFFF;" width="32" height="32"></a>
 			<a href="https://www.linkedin.com/in/danielbittman" target="_blank"> <img src="icons/linkedin.png"   style="background-color:#007FB1;"></a>
 			<a href="mailto:danielbittman1@gmail.com" target="_blank">           <img src="icons/gmail.png"      style="background-color:#DD4B39;"></a>
 			<a href="http://google.com/+DanielBittman" target="_blank">          <img src="icons/googleplus.png" style="background-color:#D14836;"></a>
