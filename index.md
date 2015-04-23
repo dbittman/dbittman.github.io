@@ -16,6 +16,7 @@ keywords: github pages, Jekyll, foundation 5
 			<h4>About Me</h4>
 			<p>A 22 year old systems programmer who loves low-level code, hacking and breaking things,
 			and re-inventing the wheel.</p>
+			<p><a href="mailto:danielbittman1@gmail.com">Send me an email!</a></p>
 			<p>Download my <a href="download/resume.pdf">resum&#233;</a></p>
 			<div class="row text-center">
 			<a href="http://facebook.com/daniel.a.bittman" target="_blank">      <img src="icons/facebook.png"   style="background-color:#3B5998;"></a>
