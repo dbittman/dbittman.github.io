@@ -1480,12 +1480,17 @@ $button-bg-color: $link-color;
 	position: relative;
 	display: table;
 	width: 100%;
-//	vertical-align: middle;                     
+	height: 70px;
 }
 
-#header .div {
-	display: table-cell;
+#header .row,
+#header .columns{
+	display: table;
 	width: 100%;
-	vertical-align: middle;
+	height: 100%;                       
 }
-
+#header .spanMiddle {
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;                     
+}
