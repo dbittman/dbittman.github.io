@@ -1474,25 +1474,12 @@ $button-bg-color: $link-color;
 // $include-table-visibility-classes: true;
 // $include-legacy-visibility-classes: true;
 
-#headerpanel {
+#headerl {
 	background: linear-gradient(rgba(0, 0, 0, 0.3) , rgba(0,0,0,0.3)), url( ../../images/footerbg1.jpg);  
 	background-size: cover;
-	text-align: center;
 	position: relative;
-	display: table;
-	width: 100%;
-	height : 250px; /* Determine the height of the box */
-}
-
-#headerpanel .row,
-#headerpanel .columns{
-	display: table;
-	width: 100%;
-	height: 100%;                       
-}
-#headerpanel .spanMiddle {
 	display: table-cell;
-	text-align: center;
+	width: 100%;
 	vertical-align: middle;                     
 }
 
