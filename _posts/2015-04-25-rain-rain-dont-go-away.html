@@ -5,58 +5,77 @@ excerpt: I discovered that gnuplot can create an HTML5 canvas, and I wanted to k
 ---
 
 <div class="row">
-<div class="large-12 columns">
-	<h1>
-		Rain Rain, Don't Go Away
-	</h1>
-<hr>
-</div>
+	<div class="large-12 columns">
+		<h1>
+			Rain Rain, Don't Go Away
+		</h1>
+		<hr>
+	</div>
 </div>
 <div class="row">
-<div class="large-12 columns">
-<p>Maybe it's my obsession with pretty graphs and nice data, but I've always wanted to know one simple piece of
-information: how much as it rained over the past x days? If x happens to be exactly 30 or however many days it's 
-been since the start of the "rainy season", that's not particularly hard to get (though it requires a surprising
-amount of googling). But if you just want to know how much rain fell during the most recent storm, you're pretty
-much out of luck.</p>
+	<div class="large-12 columns">
+		<p>Maybe it's my obsession with pretty graphs and nice data, but I've always wanted to know one simple piece of
+		information: how much as it rained over the past x days? If x happens to be exactly 30 or however many days it's 
+		been since the start of the "rainy season", that's not particularly hard to get (though it requires a surprising
+		amount of googling). But if you just want to know how much rain fell during the most recent storm, you're pretty
+		much out of luck.</p>
 
-<p>I'm continuing the tradition in my family of having a rain gauge and making little graphs of rainfall each month,
-but I decided to go all high-tech on the idea and make a website to make these graphs automatically. Also that way
-I don't have to go out in the rain to read the gauge every day.</p>
+		<p>I'm continuing the tradition in my family of having a rain gauge and making little graphs of rainfall each month,
+		but I decided to go all high-tech on the idea and make a website to make these graphs automatically. Also that way
+		I don't have to go out in the rain to read the gauge every day.</p>
 
-<p>Whoa, I made a thing: <a href="http://rainfallgraphs.com">http://rainfallgraphs.com</a></p>
+		<p>Whoa, I made a thing: <a href="http://rainfallgraphs.com">http://rainfallgraphs.com</a></p>
 
-<h3>Enter Gnuplot</h3>
+		<h3>Enter Gnuplot</h3>
 
-<p>Hey, Gnuplot can produce an HTML5 canvas element! How about I dynamically generate a webpage server-side by
-shoving the output of Gnuplot into an HTML file and serving that up like a nice hot dinner? Hey, sounds great!<p>
+		<p>Hey, Gnuplot can produce an HTML5 canvas element! How about I dynamically generate a webpage server-side by
+		shoving the output of Gnuplot into an HTML file and serving that up like a nice hot dinner? Hey, sounds great!<p>
 
-<p>The basic idea: have some kind of database where I can lookup how much it rained on a specific day, and then
-use some kind of <a href="http://en.wikipedia.org/wiki/PHP">crappy scripting language</a> to start a gnuplot
-process and write a bunch of commands to its input in order to generate the desired graph. Which is nice, because
-I don't need to store any graphs, they're all generated dynamically. And is especially cool because that means
-I can generate any database query I want to generate any graph I want. Finally, my days of googling for a specific
-rain data graph are over.</p>
+		<p>The basic idea: have some kind of database where I can lookup how much it rained on a specific day, and then
+		use some kind of <a href="http://en.wikipedia.org/wiki/PHP">crappy scripting language</a> to start a gnuplot
+		process and write a bunch of commands to its input in order to generate the desired graph. Which is nice, because
+		I don't need to store any graphs, they're all generated dynamically. And is especially cool because that means
+		I can generate any database query I want to generate any graph I want. Finally, my days of googling for a specific
+		rain data graph are over.</p>
 
-<h3>The Database</h3>
+		<h3>The Database</h3>
 
-<p>Erm, what's this database and where does it come from and how is it genera-. Okay, so that part was something
-I <em>thought</em> was going to be really hard, but is in fact really easy. There's a super handy program in the
-Arch AUR called <em>weatherman</em> which, in its report, it actually returns how much rain has fallen so far
-today since midnight. All I had to do was set up a cronjob to run the command, get the number, and toss it into
-a mysql database.</p>
+		<p>Erm, what's this database and where does it come from and how is it genera-. Okay, so that part was something
+		I <em>thought</em> was going to be really hard, but is in fact really easy. There's a super handy program in the
+		Arch AUR called <em>weatherman</em> which, in its report, it actually returns how much rain has fallen so far
+		today since midnight. All I had to do was set up a cronjob to run the command, get the number, and toss it into
+		a mysql database.</p>
 
-<h3>What can it do?</h3>
+		<h3>What can it do?</h3>
 
-<p>So for now, it can produce graphs of rain data between two arbitrary dates for select locations, provide that
-data in line or bar graph form, present it as intensity or totals, and show the data as daily or hourly. It passes
-parameters in the URL so the graphs are shareable. There are still some things to work out, like in
-<a href="http://rainfallgraphs.com/query.php?location=usa_ca_santacruz&startdate=2015-01-26&enddate=2015-04-26&timeperiod=hourly&measurement=intensity&graphtype=line">this</a> graph (yeah, that x-axis labeling is weird, don't ask).</p>
+		<p>So for now, it can produce graphs of rain data between two arbitrary dates for select locations, provide that
+		data in line or bar graph form, present it as intensity or totals, and show the data as daily or hourly. It passes
+		parameters in the URL so the graphs are shareable. There are still some things to work out, like in
+		<a href="http://rainfallgraphs.com/query.php?location=usa_ca_santacruz&startdate=2015-01-26&enddate=2015-04-26&timeperiod=hourly&measurement=intensity&graphtype=line">this</a> graph (yeah, that x-axis labeling is weird, don't ask).</p>
 
-<h2>California</h2>
+		<h2>California</h2>
+		<p>California is in the middle of a very bad drought. I live in California, so I tend to care about this.
+		<img src="http://media3.s-nbcnews.com/j/newscms/2014_34/627566/pc-140820-california-drought-01_df9e66504eb531798626153aae549f70.nbcnews-ux-1040-700.jpg"></p>
 
-<img src="http://media3.s-nbcnews.com/j/newscms/2014_34/627566/pc-140820-california-drought-01_df9e66504eb531798626153aae549f70.nbcnews-ux-1040-700.jpg">
+		<p>Part of rainfallgraphs.com is an attempt to record just how screwed we are as a state in terms of water. Of course,
+		there are other (more official) agencies (with more money) do the same data recording, but whatever. It's fun.</p>
 
+		<p>I'm currently taking data for Santa Cruz (because I live there), Oakland (because my parents live there and my
+		dad is who inspired me to make rain graphs, because he does it too), and New Orleans. Why New Orleans? Because
+		<a href="http://en.wikipedia.org/wiki/List_of_Louisiana_hurricanes_%282000%E2%80%93present%29">it rains a lot there</a>,
+		and I needed to test my website (since California cities obviously aren't conducive to that).</p>
+
+		<p>I've only been collecting data since late December of 2014, but there's at least enough there to make some fun
+		graphs. And I can now answer the question of "how much has it rained in the past three days?". Hopefully I'll be
+		able to keep collecting data over the next few years, and then I'll have a lot of data to play with (and hopefully
+		that data says that California gets more rain).</p>
+
+	</div>
 </div>
+
+<div class="row">
+	<div class="small-12 columns">
+		<p><em>posted 2014-11-05 by Daniel Bittman (<a href="mailto:danielbittman1@gmail.com">send me an email</a> or <a href="http://twitter.com/danielbittman">follow me on twitter</a>!)</em></p>
+	</div>
 </div>
 
