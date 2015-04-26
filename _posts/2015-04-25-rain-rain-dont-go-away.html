@@ -24,11 +24,36 @@ much out of luck.</p>
 but I decided to go all high-tech on the idea and make a website to make these graphs automatically. Also that way
 I don't have to go out in the rain to read the gauge every day.</p>
 
-<h2>Enter Gnuplot</h2>
+<p>Whoa, I made a thing: <a href="http://rainfallgraphs.com">http://rainfallgraphs.com</a></p>
+
+<h3>Enter Gnuplot</h3>
 
 <p>Hey, Gnuplot can produce an HTML5 canvas element! How about I dynamically generate a webpage server-side by
 shoving the output of Gnuplot into an HTML file and serving that up like a nice hot dinner? Hey, sounds great!<p>
 
+<p>The basic idea: have some kind of database where I can lookup how much it rained on a specific day, and then
+use some kind of <a href="http://en.wikipedia.org/wiki/PHP">crappy scripting language</a> to start a gnuplot
+process and write a bunch of commands to its input in order to generate the desired graph. Which is nice, because
+I don't need to store any graphs, they're all generated dynamically. And is especially cool because that means
+I can generate any database query I want to generate any graph I want. Finally, my days of googling for a specific
+rain data graph are over.</p>
+
+<h3>The Database</h3>
+
+<p>Erm, what's this database and where does it come from and how is it genera-. Okay, so that part was something
+I <em>thought</em> was going to be really hard, but is in fact really easy. There's a super handy program in the
+Arch AUR called <em>weatherman</em> which, in its report, it actually returns how much rain has fallen so far
+today since midnight. All I had to do was set up a cronjob to run the command, get the number, and toss it into
+a mysql database.</p>
+
+<h3>What can it do?</h3>
+
+<p>So for now, it can produce graphs of rain data between two arbitrary dates for select locations, provide that
+data in line or bar graph form, present it as intensity or totals, and show the data as daily or hourly. It passes
+parameters in the URL so the graphs are shareable. There are still some things to work out, like in
+<a href="http://rainfallgraphs.com/query.php?location=usa_ca_santacruz&startdate=2015-01-26&enddate=2015-04-26&timeperiod=hourly&measurement=intensity&graphtype=line">this</a> graph (yeah, that x-axis labeling is weird, don't ask).</p>
+
+<h2>California</h2>
 
 </div>
 </div>
