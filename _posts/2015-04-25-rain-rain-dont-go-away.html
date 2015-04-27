@@ -17,14 +17,16 @@ excerpt: I discovered that gnuplot can create an HTML5 canvas, and I wanted to k
 		<p>Maybe it's my obsession with pretty graphs and nice data, but I've always wanted to know one simple piece of
 		information: how much as it rained over the past x days? If x happens to be exactly 30 or however many days it's 
 		been since the start of the "rainy season", that's not particularly hard to get (though it requires a surprising
-		amount of googling). But if you just want to know how much rain fell during the most recent storm, you're pretty
+		amount of googling sometimes). But if you just want to know how much rain fell during the most recent storm, you're pretty
 		much out of luck.</p>
 
 		<p>I'm continuing the tradition in my family of having a rain gauge and making little graphs of rainfall each month,
 		but I decided to go all high-tech on the idea and make a website to make these graphs automatically. Also that way
-		I don't have to go out in the rain to read the gauge every day.</p>
+		I don't have to go out in the rain to read the gauge.</p>
 
-		<p>Whoa, I made a thing: <a href="http://rainfallgraphs.com">http://rainfallgraphs.com</a></p>
+		<p>So, yeah, I made a thing: <a href="http://rainfallgraphs.com">http://rainfallgraphs.com</a>. Check it out!
+		It'll make graphs between any two dates (that it has data for, of course) in various ways! And you can share
+		the graph by copying the URL once it's generated.</p>
 
 		<h3>Enter Gnuplot</h3>
 
@@ -41,10 +43,12 @@ excerpt: I discovered that gnuplot can create an HTML5 canvas, and I wanted to k
 		<h3>The Database</h3>
 
 		<p>Erm, what's this database and where does it come from and how is it genera-. Okay, so that part was something
-		I <em>thought</em> was going to be really hard, but is in fact really easy. There's a super handy program in the
-		Arch AUR called <em>weatherman</em> which, in its report, it actually returns how much rain has fallen so far
+		I <em>thought</em> was going to be really hard, but was in fact really easy. There's a super handy program in the
+		Arch AUR called <em>weatherman</em> which, in its report, actually returns how much rain has fallen so far
 		today since midnight. All I had to do was set up a cronjob to run the command, get the number, and toss it into
-		a mysql database.</p>
+		a mysql database. There were a couple minor edge cases to worry about (sometimes the program returns zero, so it
+		just uses the number from the previous hour if that happens), but for the most part, it was simple. Most of the
+		PHP code is just determining reasonable values to set for graph parameters to send to Gnuplot.</p>
 
 		<h3>What can it do?</h3>
 
