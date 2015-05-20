@@ -20,7 +20,7 @@ title: Building - Documentation - SeaOS
 		<h2>SeaOS - Building</h2>
 		<hr>
 		<p><em>Building is only supported on Linux</em></p>
-		<p>Building the kernel is only currently supported using a cross compiler, ether <code>i586-pc-seaos-gcc</code> or <code>x86_64-pc-seaos-gcc</code>.
+		<p>Building the kernel is only supported using a cross compiler, ether <code>i586-pc-seaos-gcc</code> or <code>x86_64-pc-seaos-gcc</code>.
 		This cross compiler
 		is built by the SeaOS userland source code, available at <a href="http://github.com/dbittman/sea">github.com/dbittman/sea</a>. Instructions for
 		building it are available within that repository. Once built and added to your PATH variable, the makefile in seakernel will use it to compile
@@ -43,26 +43,11 @@ title: Building - Documentation - SeaOS
 		version, select <code>x86_64</code>. If you have previously installed the toolchain and you want to re-install or install a different version or architecture,
 		you must cd into the tools directory and run <code>ruby build.rb all-all --reinstall</code>, and then select the architecture.</p>
 
-		<h3>Configuring the Kernel</h3>
-
-		<p>Once this is complete, the toolchain is installed in the location you specified in the configure script. Because it is not in the path by default, trying to compile
-		the kernel will result in something like <code>i586-pc-seaos-gcc: command not found</code>. The SeaOS userland handles adding the toolchain to the path, and should
-		be used to compile the kernel.
-
-		<p>Before the kernel can be compiled the kernel configuration must be generated. This is accomplished by
-		running <code>make config</code>. It will ask a bunch of questions, but the defaults are quite reasonable.</p>
-
 		<h3>Preparing the Userland</h3>
 		<p>
 		In order to build a working OS, the programs and configuration files must be downloaded
 		and installed. To do this, run <code>make apps</code> (or <code>make apps64</code> for
-		the 64 bit versions. Both the 64bit and 32bit apps can be installed simultaneuously).
-		</p>
-		<p>
-		Finally, to build the hard disk image, run <code>make newhd</code>. To built a disk image
-		with the 64bit apps, run <code>make newhd64</code>. Currently only one hard drive image
-		may be generated at one time. Running <code>make newhd64</code> after running <code>make
-			newhd</code> will overwrite the 32bit image.
+		the 64 bit versions. Both the 64bit and 32bit apps can be downloaded simultaneuously).
 		</p>
 		<p>
 		<em>WARNING - creating a hard disk image requires legacy grub. A binary is provided
@@ -74,15 +59,32 @@ title: Building - Documentation - SeaOS
 		</p>
 		<p>Optionally, you can generate the man pages for the applications by running <code>make man</code>.</p>
 
-		<h3>Compiling and Testing the Kernel</h3>
 
-		<p>Once those have been completed, simply executing <code>make</code> in the SeaOS userland repo will then build the kernel and install it to the hard disk image.</p>
+		<h3>Basic Compilation - Defaults</h3>
 
+		<p>The kernel provides a default configuration (currently 32-bit x86) to make things simple. Just run 'make'. This
+		will generate the hard drive image, compile the kernel, generate the initrd, and put them all on the hard drive image.
+		</p>
 		<p>The recommended way to test SeaOS is using the emulator Qemu. Sane defaults are provided
 		by the make target <code>qemu</code>. Other targets are available, that add basic
 		networking, nested KVM, and others. If your computer doesn't support KVM, remove the
 		<code>-enable-kvm</code> line from <code>local_make.inc</code>.
 		</p>
+
+		<h3>Advanced Compilation</h3>
+		<p>In reality, the source tree contains a build directory in which is a directory called 'default'. The makefile reads
+		the environment variables BUILDCFG. If this is not specified, it takes the value 'default'. In build/default is provided
+		a default configuration that's ready for building.</p>
+
+		<p>Note that this is true for both the userland repo and the kernel repo itself.</p>
+
+		<p>You can create your own configuration by running "tools/cfg-new [name] [arch]" in the userland repo. This will create
+		a new configuration in build/ that will generate a hard drive image with the userspace programs specified by arch (so 64bit or
+		32bit depending on x86_64 or i586). It will then also create a build configuration for the kernel as well, and run the configure
+		script. This will ask a bunch of questions, but just make sure to match the userland architecture with the kernel architecture.</p>
+
+		<p>If you've created multiple configurations, you can select which one to build and use / test by setting BUILDCFG to the name
+		of the configuration that you want to use.</p>
 
 	</div>
 
