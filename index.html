@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Daniel Bittman</title>
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<link rel = "stylesheet" type = "text/css" href = "style.css" media="screen"/>
+	<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-57856555-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+</head>
+<body>
+
+	<header class="flexcol">
+		<div style="width:25%">
+			<h3><a href="/" style="color: #000;">Daniel Bittman</a></h3>
+		</div>
+
+		<div style="width:25%; text-align:right">
+			<p>
+			<a href="https://github.com/dbittman">Github</a><br>
+			<a href="https://twitter.com/danielbittman">Twitter</a>
+			</p>
+		</div>
+	</header>
+
+	<div>
+		<h2>Ramblings</h2>
+
+		<p>
+		<h4 style="display: inline;"><a href="posts/magically-changing-errno.html">The Magically Changing Errno</a></h4> July 16, 2015<br>
+		Turns out changing errno inside memset can break things, and the standard totally lets you
+		do it.
+		</p><p>
+		<h4 style="display: inline;"><a href="posts/rain-rain-dont-go-away.html">Rain, Rain, Don't Go Away</a></h4> April 25, 2015<br>
+		Makin' graphs to track California's drought.
+		</p><p>
+		<h4 style="display: inline;"><a href="posts/fighting-with-your-compiler.html">Fighting With Your Compiler</a></h4> November 5, 2014<br>
+		What happens when gcc replaces an implementation of memset with a call to itself? The kernel breaks!
+		</p>
+	</div>
+
+	<br>
+
+	<div class="flexcol">
+	<div style="width: 53%;">
+	<h2>About Me</h2>
+	<p style="text-align: justify">
+	I am a <span id="agespan">24</span> year old systems programmer who loves
+	low-level tinkering, breaking things, and re-inventing the wheel.
+	I started pursuing a PhD in computer science at UC Santa Cruz
+	in late 2016, and my current research is regarding non-volatile memory support in operating
+	systems. In the past I have developed a self-hosting Unix-like kernel and userspace
+	to learn about kernel engineering.
+	</p>
+
+	<p><strong>
+	Download my <a href="https://docs.google.com/document/d/1osV_wySUCCanRCe5aBR-zChe1HsoTGebhTS-Aa1K36o/export?format=pdf">Résumé</a>, or my <a href="https://docs.google.com/document/d/1Lqm3D-SHBvdXx78r1hpaB636MLFgoHQQInwO2OGtlWE/export?format=pdf">CV</a>.
+	</strong></p>
+
+	</div>
+	<div class="divider"></div>
+	<div style="width: 35%;">
+	<h2>Selected Projects</h2>
+	<p><a href=seaos/index.html>SeaOS - Self-hosting Unix-like kernel</a></p>
+
+	<p><a href="https://github.com/dbittman/waitfree-mpsc-queue">Wait-free MPSC Queue Library</a></p>
+	
+	<p><a href="https://github.com/dbittman/chttp">Low-lock Concurrent HTTP Server (incomplete)</a></p>
+	
+	<p><a href="https://github.com/dbittman/statics-solver">Physics Statics and Poisson's Equation Solver</a></p>
+
+	</div>
+	</div>
+
+	<footer>
+	<hr>
+
+	<div class="flexcol">
+		<div style="width: 20%"><p><a href="/">Home</a></p></div>
+		<div style="width: 80%; text-align: right;">
+			<p style="color: #888;">© Daniel Bittman <span id="curyear">2017</span></p></div>
+	</div>
+	</footer>
+	<script>
+		document.getElementById("agespan").textContent = Math.floor(((new Date() - new Date("1992-10-01")) / (1000 * 60 * 60 * 24 * 365)))
+		document.getElementById("curyear").textContent = (new Date()).getFullYear();
+	</script>
+</body>
+</html>
+

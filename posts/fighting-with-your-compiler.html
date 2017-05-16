@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Daniel Bittman</title>
+		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+		<link rel = "stylesheet" type = "text/css" href = "/style.css" media="screen"/>
+		<link href="/css/shCore.css" rel="stylesheet" type="text/css" />
+		<link href="/css/shThemeDefault.css" rel="stylesheet" type="text/css" />
+		<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-57856555-1', 'auto');
+ga('send', 'pageview');
+		</script>
+	</head>
+
+	<body>
+
+		<header class="flexcol">
+			<div style="width:25%">
+				<h3><a href="/" style="color: #000;">Daniel Bittman</a></h3>
+			</div>
+
+			<div style="width:25%; text-align:right">
+				<p>
+				<a href="https://github.com/dbittman">Github</a><br>
+				<a href="https://twitter.com/danielbittman">Twitter</a>
+				</p>
+			</div>
+		</header>
+
+
+		<div>
+			<h1>Fighting With Your Compiler</h1>
+
+			<p>
+	I use gcc to compile <a href="http://dbittman.github.io/seaos/index.html">SeaOS</a>. While <a href="http://clang.llvm.org/">clang</a>
+	is a production quality C compiler, gcc is more established and has more documentation on porting <small>(I also use evil gcc-specific
+	extensions to accomplish stack and x86 magic, something I'm slowly working on removing)</small>. In order to guarantee that the compiler
+	doesn't try to do anything stupid like use system libraries, generate code for the wrong CPU type, etc, SeaOS builds itself a gcc
+	cross-compiler. This helps to stabilize the build environment, making it easier to find bugs in the kernel.
+	</p>
+	<p>When writing code, it is generally a good idea to assume that the compiler is <em>always</em> generating correct assembly code. It is
+	way way more likely that you've buggered up some code without realizing it, or there is some edge case that you haven't thought of, or
+	that you forgot to declare a variable that gets modified in an interrupt handler as volatile, than the compiler generating problematic assembly.
+	In general, the compiler is more stable and has been better evaluated than what you wrote 20 minutes ago while watching Netflix. Even if you've
+	spent hours saying "this should work!", it will almost always come back to a mistake you made, not the compiler.
+	</p>
+	<p> Of course, that isn't always the case. Once you've spent hours debugging you start to doubt that rule, and you disassemble the binary and evaluate
+	the mess that is gcc-generated x86-64 assembly code.</p>
+	<p>And sometimes, you find something.</p>
+
+	<h2>A Bit of Background</h2>
+
+	<p>Kernel development isn't the nice happy convenient place that C userland is - wait, did I just say that C userland was convenient? Yes. Compared
+	to kernel-space, programming in C in userland is a breeze (no matter how many Python developers say otherwise). Firstly, you get no libraries except
+	for libgcc, but that's mostly routines for things like 64-bit division and floating point handling. You have to implement all the standard library
+	functions that you need yourself. That includes strcmp, strcat, memcpy and memset, which is why SeaOS has a library/string directory that contains
+	simple implementations of things like memset.</p>
+
+	<p>Compilers like to optimize code if you tell them to. Gcc 4.8 has an optimization -ftree-loop-distribute-patterns, that basically optimizes
+	certain code patterns and turns them into library calls. From the documentation:
+	</p>
+	<blockquote>
+		<h5>-ftree-loop-distribute-patterns:</h5>
+		<p>
+		Perform loop distribution of patterns that can be code generated with calls to a library. This flag is enabled by default at -O3.
+		This pass distributes the initialization loops and generates a call to memset zero. For example, the loop
+		</p>
+		<p class="code-container panel" style="font-family: Consolas,'Liberation Mono',Courier,monospace;">
+		DO I = 1, N<br>
+		&nbsp;&nbsp;A(I) = 0<br>
+		&nbsp;&nbsp;B(I) = A(I) + I<br>
+		ENDDO
+		</p>
+		<p>
+		is transformed to
+		</p>
+		<p class="code-container panel" style="font-family: Consolas,'Liberation Mono',Courier,monospace;">
+		DO I = 1, N<br>
+		&nbsp;&nbsp;A(I) = 0<br>
+		ENDDO<br>
+		DO I = 1, N<br>
+		&nbsp;&nbsp;B(I) = A(I) + I<br>
+		ENDDO
+		</p>
+		<p>
+		and the initialization loop is transformed into a call to memset zero.
+		</p>
+	</blockquote>
+	<p>
+	Wow, great! It'll optimize initialization loops by calling memset in places where I've forgotten to just call memset instead of making
+	a loop. There is just one problem...
+	</p>
+	<h2>Implementing memset</h2>
+	<p>When gcc 4.8 came out, I updated my cross-compiler so that it was based off of gcc 4.8. I quickly re-built the kernel, and booted it up...
+	only to have it immediately crash. It instantly triple faulted the cpu. It didn't even get a change to print "hello" on the screen. I hung my
+	head in sadness, and went looking for the bug. At this point, I assumed that there was some coding error that only showed up because of some
+	new optimization or difference in gcc 4.8.</p>
+	<p>After searching for a long time, I traced the crash back to a call to memset. "Weird", I thought, "maybe I'm setting some memory to zero
+	that I shouldn't be". But I wasn't. In fact, this was the first call to memset that the kernel ever makes when booting up, which I found
+	suspicious. I decided to check out the memset code, to see if something was up.</p>
+	
+	<p>So, what does an implementation of memset look like? Pretty simple really, all it does is set a bunch of bytes to something:</p>
+	<pre class="brush: cpp">
+	void *memset(void *m, int c, size_t n)
+	{
+		unsigned char *s = (unsigned char *) m;
+		while (n--) {
+			*s++ = (unsigned char) c;
+		}
+		return m;
+	}
+	</pre>
+	<p>Nothing immediately stood out, so I decided to look at the disassembled binary for memset. I still had the old cross-compiler around,
+	so I compiled both a non-working version and a working version. Here are the outputs:</p>
+	
+	<h4>Non-optimized, working memset</h4>
+	<div class="code-container panel" style="font-family: Consolas,'Liberation Mono',Courier,monospace;">
+		0012d9b8 &lt;memset&gt;:<br>
+		&nbsp;&nbsp;  12d9b8: push   %rbp<br>
+		&nbsp;&nbsp;  12d9b9: mov    %rsp,%rbp<br>
+		&nbsp;&nbsp;  12d9bc: mov    %rdi,%rax<br>
+		&nbsp;&nbsp;  12d9bf: mov    %rdi,%rcx<br>
+		&nbsp;&nbsp;  12d9c2: jmp    12d9ce &lt;memset+0x16&gt;<br>
+		&nbsp;&nbsp;  12d9c4: mov    %sil,(%rcx)<br>
+		&nbsp;&nbsp;  12d9c7: mov    %r8,%rdx<br>
+		&nbsp;&nbsp;  12d9ca: lea    0x1(%rcx),%rcx<br>
+		&nbsp;&nbsp;  12d9ce: lea    -0x1(%rdx),%r8<br>
+		&nbsp;&nbsp;  12d9d2: test   %rdx,%rdx<br>
+		&nbsp;&nbsp;  12d9d5: jne    12d9c4 &lt;memset+0xc&gt;<br>
+		&nbsp;&nbsp;  12d9d7: pop    %rbp<br>
+		&nbsp;&nbsp;  12d9d8: retq<br>
+	</div>
+
+	<h4>Optimized, non-working memset</h4>
+	<div class="code-container panel" style="font-family: Consolas,'Liberation Mono',Courier,monospace;">
+		0013aaf0 &lt;memset&gt;: <br>
+		&nbsp;&nbsp;  13aaf0: test   %rdx,%rdx<br>
+		&nbsp;&nbsp;  13aaf3: je     13ab10 &lt;memset+0x20&gt;<br>
+		&nbsp;&nbsp;  13aaf5: push   %rbp<br>
+		&nbsp;&nbsp;  13aaf6: movzbl %sil,%esi<br>
+		&nbsp;&nbsp;  13aafa: movabs $0x13aaf0,%rax<br>
+		&nbsp;&nbsp;  13ab04: mov    %rsp,%rbp<br>
+		&nbsp;&nbsp;  13ab07: callq  *%rax<br>
+		&nbsp;&nbsp;  13ab09: pop    %rbp<br>
+		&nbsp;&nbsp;  13ab0a: retq   <br>
+		&nbsp;&nbsp;  13ab0b: nopl   0x0(%rax,%rax,1)<br>
+		&nbsp;&nbsp;  13ab10: mov    %rdi,%rax<br>
+		&nbsp;&nbsp;  13ab13: retq<br>
+	</div>
+	
+	<p>The working one is correct, obviously. But the non-working one has some weird stuff going on. It skips over the function if the
+	size argument is zero, which makes sense. If it doesn't skip over it, it loads the value <code>0x13aaf0</code> into <code>%rax</code>
+	and then later does a function call to that location. The relevant parts highlighted:</p>
+	<div class="code-container panel" style="font-family: Consolas,'Liberation Mono',Courier,monospace;color:#95a5a6">
+		<div style="color:#000000;"><span style="color:#bd240d;">0013aaf0</span> &lt;memset&gt;:</div>
+		&nbsp;&nbsp;  13aaf0: test   %rdx,%rdx<br>
+		&nbsp;&nbsp;  13aaf3: je     13ab10 &lt;memset+0x20&gt;<br>
+		&nbsp;&nbsp;  13aaf5: push   %rbp<br>
+		&nbsp;&nbsp;  13aaf6: movzbl %sil,%esi<br>
+		<div style="color:#000000;">&nbsp;&nbsp;  13aafa: movabs <span style="color:#bd240d;">$0x13aaf0</span>,%rax</div>
+		&nbsp;&nbsp;  13ab04: mov    %rsp,%rbp<br>
+		<div style="color:#000000;">&nbsp;&nbsp;  13ab07: callq  *%rax</div>
+		&nbsp;&nbsp;  13ab09: pop    %rbp<br>
+		&nbsp;&nbsp;  13ab0a: retq   <br>
+		&nbsp;&nbsp;  13ab0b: nopl   0x0(%rax,%rax,1)<br>
+		&nbsp;&nbsp;  13ab10: mov    %rdi,%rax<br>
+		&nbsp;&nbsp;  13ab13: retq<br>
+	</div>
+	<p>Yup. Memset is calling itself. And not jumping around inside the function loop style, no. It's actually calling the beginning of the function. I'm pretty
+	sure that I didn't ask gcc to change my memset into a recursive memset, so something fishy is going on.</p>
+	<h2>The Fix</h2>
+	<p>After comparing the optimizations done by gcc 4.8 and my old compiler, I found the name of the optimization. The easy fix is to disable that optimization
+	and be on my merry way. But is there a better fix?</p>
+
+	<p>Short answer: no. When compiling programs, gcc emits calls to standard library functions. And that's okay, because memset is part of the standard 
+	library - it is <em>going to be there</em>. Except when you're implementing
+	the standard library! Even the GNU C library <a href="http://sourceware.org/ml/libc-alpha/2013-02/msg00299.html">had problems with that optimization, and
+	had to disable it</a>. In kernel space, there are NO libraries outside of libgcc! In order to compile SeaOS, the flag <code>-nostdlib</code> is specified, which
+	tells gcc to not link any libraries. If I had renamed my memset implementation to fill_memory_with_a_value and called that instead, all my code would have
+	worked, except that it wouldn't link because gcc would insist that memset was still present (since it would just optimize that function away to memset).</p>
+	<p>To be fair, gcc documentation does say that even with <code>-nostdlib</code>, gcc may still generate calls to memset and friends. Personally, I think that
+	is idiotic behavior. The flag specifically means "Hey! There aren't any standard libraries! There may not be any standard functions! As much as you want to believe that
+	memset is around, that isn't going to make it true!". The real fix would be for gcc to fix this broken behavior, or to at least add another flag called
+	"-nostdlib-for-real-though-im-not-screwing-around".</p>
+	<hr>
+	<p>Note: gcc has actually had this option for quite some time, but it never broke anything until gcc 4.8. This is because gcc 4.8 became much better at recognizing
+	code that could be optimized to a call to memset.</p>
+
+		</div>
+
+		<p><em>posted 2014-11-05 by Daniel Bittman (<a href="mailto:danielbittman1@gmail.com">send me an email</a> or <a href="http://twitter.com/danielbittman">follow me on twitter</a>!)</em></p>
+
+
+
+
+
+
+		<footer>
+			<hr>
+
+			<div class="flexcol">
+				<div style="width: 20%"><p><a href="/">Home</a></p></div>
+				<div style="width: 80%; text-align: right;">
+					<p style="color: #888;">© Daniel Bittman <span id="curyear">2017</span></p></div>
+			</div>
+		</footer>
+		<script>
+document.getElementById("curyear").textContent = (new Date()).getFullYear();
+		</script>
+
+
+		<script src="/js/shCore.js"></script>
+		<script src="/js/shBrushCpp.js"></script>
+		<script>
+SyntaxHighlighter.all()
+		</script>
+	</body>
+</html>
+

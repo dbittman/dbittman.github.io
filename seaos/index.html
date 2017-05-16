@@ -1,55 +1,69 @@
----
-layout: default
-title: SeaOS - dbittman
----
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Daniel Bittman</title>
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<link rel = "stylesheet" type = "text/css" href = "/style.css" media="screen"/>
+	<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-<div class="row">
-	<div class="large-3 columns panel">
-		<div class="row text-center">
-			<a href="http://github.com/dbittman/seakernel" target="_blank" class="button"><img src="icons/github.png">Source Code</a>
+      ga('create', 'UA-57856555-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+</head>
+<body>
+
+	<header class="flexcol">
+		<div style="width:25%">
+			<h3><a href="/" style="color: #000;">Daniel Bittman</a></h3>
 		</div>
-		<hr>
-		<ul>
-			<li><a href="seaos/releases.html">Download</a></li>
-			<li><a href="seaos/documentation/index.html">Documentation</a></li>
-		</ul>
+
+		<div style="width:25%; text-align:right">
+			<p>
+			<a href="https://github.com/dbittman">Github</a><br>
+			<a href="https://twitter.com/danielbittman">Twitter</a>
+			</p>
+		</div>
+	</header>
+
+
+	<h2>SeaOS - A Simple, Self-hosting Unix-like Kernel</h2>
+	<p>Back in 2005, I started writing a kernel. It failed, because I had no idea what I was doing.
+	I then tried again, and again, and my perseverance led me to <a href="https://github.com/dbittman/seakernel-refactor">the current iteration</a> of my unix-like kernel. It still needs a lot of work,
+	and progress has slowed significantly since my current PhD research involves writing an
+	operating system.</p>
+
+	<h3>Features</h3>
+	It supports AHCI, Ethernet, e1000 NICs, RTL8139 NICs, IPv4, TCP, UDP, Unix Sockets,
+	standard Unix system calls (including poll and select), threading via clone(2), the
+	Musl C library, and much of the Linux system call interface. It is self-hosting, running
+	a large Unix userland with many common tools and programs. The networking stack is still
+	limited, but it can connect to the internet via its experimental TCP implementation.
+
+
+
+
+
+
+	<footer>
+	<hr>
+
+	<div class="flexcol">
+		<div style="width: 20%"><p><a href="/">Home</a></p></div>
+		<div style="width: 80%; text-align: right;">
+			<p style="color: #888;">© Daniel Bittman <span id="curyear">2017</span></p></div>
 	</div>
-	<div class="large-9 columns">
-		<h2>SeaOS</h2>
-		<hr>
-		<p>SeaOS is a simple Unix-like kernel that places simplicity above all else, making it
-		exceedingly easy to hack on, extend, and play with. The accompanying userspace libraries, toolchain, and
-		system files can be found at <a href="http://github.com/dbittman/sea" target="_blank">github.com/dbittman/sea</a>.</p>
-
-		<h4>Features</h4>
-		<ul>
-			<li>AHCI and ATA storage devices</li>
-			<li>ext2 filesystem driver</li>
-			<li>OSI layered networking model, providing services for protocol modules (IPv4, ARP, UDP, and Ethernet implemented)</li>
-			<li>A fairly complete unix-like userspace, including coreutils, gcc, text editing, paging, etc.</li>
-			<li>ELF executables, and ELF loadable kernel modules</li>
-		</ul>
-
-		<h4>Try It Out</h4>
-		<p>You can download source code and test images from the <a href="seaos/releases.html" target="_blank">Releases</a> page. Building and testing instructions can be found
-		on the <a href="seaos/documentation/building.html" target="_blank">Building</a> page, and documentation can be found in
-		<a href="seaos/documentation/index.html" target="_blank">Documentation/</a>.</p>
-
-		<h4>OS Development Sounds Fun!</h4>
-		<p>...well, okay. There are some good resources at <a href="http://wiki.osdev.org" target="_blank">wiki.osdev.org</a> and <a href="http://forum.osdev.org" target="_blank">forum.osdev.org</a>.
-		Keep in mind that kernel development (especially starting from scratch!) is not simple or easy, but it can be quite fun. Of course, if you want to download
-		the SeaOS kernel and play around in kernel-space with a somewhat established kernel, see the 'Try It Out' section!</p>
-
-		<h4>Future Work</h4>
-		<p>The next two primary focuses of my work are networking and virtualization. Networking is not complete or thouroughly tested, and TCP is not implemented.
-		VT-x is also being worked on.</p>
-
-		<h4>Special Thanks</h4>
-		<ul>
-			<li><a href="http://wiki.osdev.org" target="_blank">wiki.osdev.org</a> and <a href="http://forum.osdev.org" target="_blank">forum.osdev.org</a></li>
-			<li><a href="http://www.ssrc.ucsc.edu" target="_blank">SSRC</a> at UC Santa Cruz</li>
-		</ul>
-
-	</div>
-</div>
+	</footer>
+	<script>
+		document.getElementById("agespan").textContent = Math.floor(((new Date() - new Date("1992-10-01")) / (1000 * 60 * 60 * 24 * 365)))
+		document.getElementById("curyear").textContent = (new Date()).getFullYear();
+	</script>
+</body>
+</html>
 
