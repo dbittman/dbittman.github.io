@@ -1,7 +1,7 @@
 body, footer {
 	font-family: 'Helvetica', sans-serif;
 	margin:10px auto;
-	max-width:650px;
+	max-width:1200px;
 	line-height:1.5;
 	font-size:18px;
 	/*color:#444;*/
@@ -68,5 +68,41 @@ hr {
   margin-top: 4%;
   margin-bottom: 3%;
   background: #ccc;
+}
+
+.left, .right {
+  float: left;
+  margin-right: 4%;
+  width: 25%; /* The width is 20%, by default */
+}
+
+.main {
+  float: left;
+  width: 70%; /* The width is 60%, by default */
+}
+
+/* Use a media query to add a breakpoint at 800px: */
+@media screen and (max-width: 800px) {
+  .left, .main, .right {
+    width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+  }
+}
+
+.image-cropper {
+    width: 230px;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+img {
+    display: inline;
+    margin: 0 auto;
+    height: 100%;
+    width: auto;
 }
 

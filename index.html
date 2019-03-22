@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Daniel Bittman</title>
 	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 	<link rel = "stylesheet" type = "text/css" href = "style.css" media="screen"/>
@@ -32,7 +32,34 @@
 		</div>
 	</header>
 
-	<div>
+	<br>
+
+	<div class="flexcol">
+		<div class="left">
+			<h2>About Me</h2>
+			<p style="text-align: justify">
+			I am a <span id="agespan">24</span> year old systems programmer who loves
+			low-level tinkering, breaking things, and re-inventing the wheel.
+			I started pursuing a PhD in computer science at UC Santa Cruz
+			in late 2016, and my current research is regarding non-volatile memory support in operating
+			systems. In the past I have developed a self-hosting Unix-like kernel and userspace
+			to learn about kernel engineering.
+			</p>
+
+			<p><strong>
+				Download my <a href="https://docs.google.com/document/d/1osV_wySUCCanRCe5aBR-zChe1HsoTGebhTS-Aa1K36o/export?format=pdf">Résumé</a>, or my <a href="https://docs.google.com/document/d/1Lqm3D-SHBvdXx78r1hpaB636MLFgoHQQInwO2OGtlWE/export?format=pdf">CV</a>.
+			</strong></p>
+
+			<img src="images/IMG_8063.JPG" class="image-cropper", style="text-align:center">
+			<h2>Selected Projects</h2>
+			<p><a href=seaos/index.html>SeaOS - Self-hosting Unix-like kernel</a></p>
+
+			<p><a href="https://github.com/dbittman/waitfree-mpsc-queue">Wait-free MPSC Queue Library</a></p>
+
+			<p><a href="https://github.com/dbittman/statics-solver">Physics Statics and Poisson's Equation Solver</a></p>
+
+		</div>
+	<div class="main">
 		<h2>Ramblings</h2>
 
 		<p>
@@ -46,40 +73,14 @@
 		<h4 style="display: inline;"><a href="posts/fighting-with-your-compiler.html">Fighting With Your Compiler</a></h4> November 5, 2014<br>
 		What happens when gcc replaces an implementation of memset with a call to itself? The kernel breaks!
 		</p>
-	</div>
 
-	<br>
+		<h2>Selected Publications</h2>
 
-	<div class="flexcol">
-	<div style="width: 53%;">
-	<h2>About Me</h2>
-	<p style="text-align: justify">
-	I am a <span id="agespan">24</span> year old systems programmer who loves
-	low-level tinkering, breaking things, and re-inventing the wheel.
-	I started pursuing a PhD in computer science at UC Santa Cruz
-	in late 2016, and my current research is regarding non-volatile memory support in operating
-	systems. In the past I have developed a self-hosting Unix-like kernel and userspace
-	to learn about kernel engineering.
-	</p>
-
-	<p><strong>
-	Download my <a href="https://docs.google.com/document/d/1osV_wySUCCanRCe5aBR-zChe1HsoTGebhTS-Aa1K36o/export?format=pdf">Résumé</a>, or my <a href="https://docs.google.com/document/d/1Lqm3D-SHBvdXx78r1hpaB636MLFgoHQQInwO2OGtlWE/export?format=pdf">CV</a>.
-	</strong></p>
+		<h2>Talks</h2>
 
 	</div>
-	<div class="divider"></div>
-	<div style="width: 35%;">
-	<h2>Selected Projects</h2>
-	<p><a href=seaos/index.html>SeaOS - Self-hosting Unix-like kernel</a></p>
+		</div>
 
-	<p><a href="https://github.com/dbittman/waitfree-mpsc-queue">Wait-free MPSC Queue Library</a></p>
-	
-	<p><a href="https://github.com/dbittman/chttp">Low-lock Concurrent HTTP Server (incomplete)</a></p>
-	
-	<p><a href="https://github.com/dbittman/statics-solver">Physics Statics and Poisson's Equation Solver</a></p>
-
-	</div>
-	</div>
 
 	<footer>
 	<hr>
